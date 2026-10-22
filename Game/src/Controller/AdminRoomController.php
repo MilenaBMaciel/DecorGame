@@ -32,6 +32,11 @@ final class AdminRoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($room);
 
+            for ($i = 1; $i <= 3; $i++) {
+                $slot = new Slot();
+                $slot->setRoom($room);
+                $entityManager->persist($slot);
+            }
             
 
             $entityManager->flush();
@@ -75,6 +80,11 @@ final class AdminRoomController extends AbstractController
     public function delete(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->getPayload()->getString('_token'))) {
+            
+            foreach ($room->getSlot() as $slot) {
+                $entityManager->remove($slot);
+            }
+
             $entityManager->remove($room);
             $entityManager->flush();
         }
