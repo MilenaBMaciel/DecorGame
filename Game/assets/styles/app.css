@@ -1,3 +1,28 @@
+/* Importa a fonte pixel art do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700&display=swap');
+
+/* ── FUNDO DA PÁGINA (tela inteira, escuro) ── */
 body {
-    background-color: skyblue;
+    margin: 0;
+    background-color: #1a0a1e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* ── JANELA DO JOGO (tamanho fixo, centrada) ── */
+.game-janela {
+    width: 800px;
+    min-height: 520px;
+    background-color: #ffe4f0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* ── TODAS AS IMAGENS ficam pixeladas (não desfocadas) ── */
+img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }

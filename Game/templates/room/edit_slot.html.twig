@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Slot da sala {{ slot.room.name }}</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form.mobile) }}
+        <button type="submit">Guardar</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_room_get', { id: slot.room.id }) }}">← Voltar</a>
+{% endblock %}

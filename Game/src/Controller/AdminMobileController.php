@@ -71,7 +71,14 @@ final class AdminMobileController extends AbstractController
     #[Route('/{id}', name: 'app_admin_mobile_delete', methods: ['POST'])]
     public function delete(Request $request, Mobile $mobile, EntityManagerInterface $entityManager): Response
     {
+
         if ($this->isCsrfTokenValid('delete'.$mobile->getId(), $request->getPayload()->getString('_token'))) {
+        
+            // Esvazia todos os slots que têm este móvel
+            foreach ($mobile->getSlot() as $slot) {
+                $slot->setMobile(null);
+            }
+    
             $entityManager->remove($mobile);
             $entityManager->flush();
         }

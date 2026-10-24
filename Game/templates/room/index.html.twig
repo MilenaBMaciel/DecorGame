@@ -7,7 +7,8 @@
 <div class="example-wrapper">
     <h1>Hello ! ✅</h1>
         {% for room in rooms %}
-            <a href="{{ path('app_room')}}">{{room.name}}</a>
+            <a href="{{ path('app_room_get', { id: room.id }) }}">{{ room.name }}</a>
         {% endfor %}
 </div>
+<a href="{{ path('app_menu_main') }}">Back</a>
 {% endblock %}

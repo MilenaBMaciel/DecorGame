@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello GetoRoom!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Hello ! ✅</h1>
+        <p>{{room.id}}</p>
+        <p>{{room.name}}</p>
+        <p>{{room.image}}</p>
+        {% for slot in room.slot %}
+            <div class="slot">
+                {% if slot.mobile %}
+                    <p>{{ slot.mobile.name }}</p>
+                {% else %}
+                    <p>Vazio</p>
+                {% endif %}
+
+                <a href="{{ path('app_slot_edit', { id: slot.id }) }}">Editar</a>
+            </div>
+        {% endfor %}
+</div>
+    <a href="{{ path('app_rooms') }}">Back</a>
+{% endblock %}
