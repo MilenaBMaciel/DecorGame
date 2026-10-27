@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Mobile;
+use App\Entity\Furniture;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotNull;
 
-class MobileType extends AbstractType
+class FurnitureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,7 +35,7 @@ class MobileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Mobile::class,
+            'data_class' => Furniture::class,
             'image_required' => true,
         ]);
         $resolver->setAllowedTypes('image_required', 'bool');

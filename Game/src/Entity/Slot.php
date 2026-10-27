@@ -16,7 +16,7 @@ class Slot
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
-    private ?Mobile $mobile = null;
+    private ?Furniture $furniture = null;
 
     #[ORM\ManyToOne(inversedBy: 'slots')]
     #[ORM\JoinColumn(nullable: false)]
@@ -35,14 +35,14 @@ class Slot
         return $this->id;
     }
 
-    public function getMobile(): ?Mobile
+    public function getFurniture(): ?Furniture
     {
-        return $this->mobile;
+        return $this->furniture;
     }
 
-    public function setMobile(?Mobile $mobile): static
+    public function setFurniture(?Furniture $furniture): static
     {
-        $this->mobile = $mobile;
+        $this->furniture = $furniture;
 
         return $this;
     }

@@ -2,26 +2,30 @@
 
 namespace App\Entity;
 
-use App\Repository\MobileRepository;
+use App\Repository\FurnitureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: MobileRepository::class)]
-class Mobile
+#[ORM\Entity(repositoryClass: FurnitureRepository::class)]
+class Furniture
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_report'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Dê um nome para o móvel.')]
     #[Assert\Length(max: 255)]
+    #[Groups(['api_report'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api_report'])]
     private ?string $image = null;
 
     /**
@@ -29,7 +33,7 @@ class Mobile
      *
      * @var Collection<int, Slot>
      */
-    #[ORM\OneToMany(targetEntity: Slot::class, mappedBy: 'mobile')]
+    #[ORM\OneToMany(targetEntity: Slot::class, mappedBy: 'furniture')]
     private Collection $slots;
 
     public function __construct()
@@ -78,7 +82,7 @@ class Mobile
     {
         if (!$this->slots->contains($slot)) {
             $this->slots->add($slot);
-            $slot->setMobile($this);
+            $slot->setFurniture($this);
         }
 
         return $this;
@@ -88,8 +92,8 @@ class Mobile
     {
         if ($this->slots->removeElement($slot)) {
             // set the owning side to null (unless already changed)
-            if ($slot->getMobile() === $this) {
-                $slot->setMobile(null);
+            if ($slot->getFurniture() === $this) {
+                $slot->setFurniture(null);
             }
         }
 

@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Mobile;
+use App\Entity\Furniture;
 use App\Entity\Slot;
-use App\Repository\MobileRepository;
+use App\Repository\FurnitureRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,16 +15,16 @@ class SlotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('mobile', EntityType::class, [
-                'class' => Mobile::class,
+            ->add('furniture', EntityType::class, [
+                'class' => Furniture::class,
                 'choice_label' => 'name',
-                'query_builder' => fn (MobileRepository $repository) => $repository->createQueryBuilder('m')->orderBy('m.name', 'ASC'),
-                // Sem móvel escolhido = slot vazio (mobile fica null)
+                'query_builder' => fn (FurnitureRepository $repository) => $repository->createQueryBuilder('m')->orderBy('m.name', 'ASC'),
+                // Sem móvel escolhido = slot vazio (furniture fica null)
                 'required' => false,
                 'placeholder' => 'Empty',
                 // Cada móvel vira uma opção com a imagem (o template desenha as miniaturas)
                 'expanded' => true,
-                'choice_attr' => fn (Mobile $mobile) => ['data-image' => $mobile->getImage()],
+                'choice_attr' => fn (Furniture $furniture) => ['data-image' => $furniture->getImage()],
             ])
         ;
     }

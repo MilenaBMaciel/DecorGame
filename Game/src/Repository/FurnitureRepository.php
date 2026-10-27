@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Mobile;
+use App\Entity\Furniture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Mobile>
+ * @extends ServiceEntityRepository<Furniture>
  */
-class MobileRepository extends ServiceEntityRepository
+class FurnitureRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Mobile::class);
+        parent::__construct($registry, Furniture::class);
     }
 
 //    /**
-//     * @return Mobile[] Returns an array of Mobile objects
+//     * @return Furniture[] Returns an array of Furniture objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class MobileRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Mobile
+//    public function findOneBySomeField($value): ?Furniture
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')

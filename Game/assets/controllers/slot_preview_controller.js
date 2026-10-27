@@ -9,7 +9,7 @@ export default class extends Controller {
         const image = event.target.dataset.image;
 
         if (image) {
-            this.imageTarget.src = `/uploads/mobiles/${image}`;
+            this.imageTarget.src = `/uploads/furniture/${image}`;
             this.imageTarget.hidden = false;
         } else {
             // Opção "vazio": esconde a imagem

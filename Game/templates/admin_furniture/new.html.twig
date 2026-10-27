@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Furniture{% endblock %}
+
+{% block body %}
+<div class="admin">
+    <h1 class="menu-title">New Furniture</h1>
+
+    {{ include('admin_furniture/_form.html.twig') }}
+
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_furniture_index') }}">Back</a>
+    </div>
+</div>
+{% endblock %}

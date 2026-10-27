@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mobiles{% endblock %}
+{% block title %}Furniture{% endblock %}
 
 {% block body %}
 <div class="admin">
-    <h1 class="menu-title">Mobiles</h1>
+    <h1 class="menu-title">Furniture</h1>
 
     <table class="admin-table">
         <thead>
@@ -15,12 +15,12 @@
             </tr>
         </thead>
         <tbody>
-        {% for mobile in mobiles %}
+        {% for furniture in furniture_items %}
             <tr>
-                <td><img class="thumb thumb-mobile" src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt=""></td>
-                <td>{{ mobile.name }}</td>
+                <td><img class="thumb thumb-furniture" src="{{ asset('uploads/furniture/' ~ furniture.image) }}" alt=""></td>
+                <td>{{ furniture.name }}</td>
                 <td>
-                    <a class="btn btn-small" href="{{ path('app_admin_mobile_edit', {'id': mobile.id}) }}">Edit</a>
+                    <a class="btn btn-small" href="{{ path('app_admin_furniture_edit', {'id': furniture.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -32,7 +32,7 @@
     </table>
 
     <div class="admin-actions">
-        <a class="btn" href="{{ path('app_admin_mobile_new') }}">Create new</a>
+        <a class="btn" href="{{ path('app_admin_furniture_new') }}">Create new</a>
         <a class="btn" href="{{ path('app_menu_edit') }}">Back</a>
     </div>
 </div>

@@ -1,3 +1,13 @@
+/* Fonte dos títulos (arquivo em assets/fonts/) */
+@font-face {
+    font-family: "Pixel Love";
+    src: url('../fonts/PixelLove.ttf') format("truetype");
+}
+@font-face {
+    font-family: "FatPIx";
+    src: url('../fonts/FatPix.ttf') format("truetype");
+}
+
 /* =====================================================
    1. VARIÁVEIS — altere só os valores aqui
    ===================================================== */
@@ -12,6 +22,14 @@
     --color-blue:         #89B7C2;
     --color-red: #E5857F;
     --color-yellow:      #FCCD86;
+    --color-white:       #ffffff;   /* campos e tabelas */
+    --color-red-hover:   #D0605A;
+    --color-outside:     #000000;   /* fundo fora da moldura */
+
+    /* Quanto os cantos são arredondados (0 = quadrado) */
+    --radius: 8px;
+    /* Fonte dos títulos (carregada no base.html.twig) */
+    --font-title: "FatPix", "Pixel Love", "Pixelify Sans", sans-serif;
     /* Imagem de fundo das páginas que não são cômodos.
        Coloque o arquivo em assets/images/ e troque só o nome. */
     --background-image: url('../images/imageFundo.png');
@@ -21,7 +39,7 @@
         /* Quantas vezes a pixel art é ampliada (use número inteiro) */
     --scale: 5;
         /* Quantas vezes os móveis (24x24) são ampliados; pode ser maior que --scale (inteiro) */
-    --mobile-scale: 11;
+    --furniture-scale: 10;
     /* Altura dos slots, em pixels da imagem original (0 a 120) */
     --slots-top: 70;
     /* Altura da moldura, em pixels da imagem original (a mesma do cômodo) */
@@ -40,7 +58,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000;
+    background-color: var(--color-outside);
     color: var(--color-text);
     font-family: "Pixelify Sans", sans-serif;
 }
@@ -116,9 +134,13 @@ textarea {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
 }
 .btn:hover { background-color: var(--color-button-hover); }
-.btn:active { transform: translateY(2px); }
+.btn:active {
+    transform: translateY(3px);
+    box-shadow: none;
+}
 
 
 /* =====================================================
@@ -140,7 +162,7 @@ textarea {
     left: 0;
     right: 0;
     /* O pé do móvel fica sempre na mesma altura, qualquer que seja o tamanho dele */
-    top: calc((var(--slots-top) + 24) * 1px * var(--scale) - 24px * var(--mobile-scale));
+    top: calc((var(--slots-top) + 24) * 1px * var(--scale) - 24px * var(--furniture-scale));
 
     display: flex;
     justify-content: space-evenly;
@@ -148,8 +170,8 @@ textarea {
 
 .slot {
     display: block;
-    width: calc(24px * var(--mobile-scale));
-    height: calc(24px * var(--mobile-scale));
+    width: calc(24px * var(--furniture-scale));
+    height: calc(24px * var(--furniture-scale));
 }
 
 /* Slot vazio não mostra nada; o contorno só aparece ao passar o mouse */
@@ -182,13 +204,14 @@ textarea {
 }
 
 .room-name {
+    font-family: var(--font-title);
     bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     padding: 4px 16px;
     background-color: var(--color-yellow);
     border: 2px solid var(--color-border);
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .room-nav {
@@ -246,12 +269,13 @@ textarea {
 }
 
 .picker-thumb {
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     width: calc(24px * 3);
     height: calc(24px * 3);
-    background-color: #fff;
+    background-color: var(--color-white);
     border: 2px solid var(--color-border);
 }
 
@@ -301,13 +325,30 @@ textarea {
     padding: 24px;
 }
 
+.game-title {
+    margin: 0 0 8px;
+    padding: 8px 32px;
+    color: var(--color-yellow);
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--color-border);
+    font-family: var(--font-title);
+    font-size: 90px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
 .menu-title {
     margin: 0 0 8px;
     padding: 8px 32px;
-    background-color: var(--color-yellow);
-    border: 2px solid var(--color-border);
-    font-size: 40px;
+    color: var(--color-yellow);
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: var(--color-border);
+    font-family: var(--font-title);
+    font-size: 60px;
     font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Botões dos menus: os mesmos .btn dos cômodos, só maiores e do mesmo tamanho */
@@ -338,7 +379,7 @@ textarea {
     box-sizing: border-box;
     width: 100%;
     padding: 6px 8px;
-    background-color: #fff;
+    background-color: var(--color-white);
     border: 2px solid var(--color-border);
     font-size: 18px;
 }
@@ -415,22 +456,29 @@ textarea {
 }
 
 .btn-danger:hover {
-    background-color: #D0605A;
+    background-color: var(--color-red-hover);
 }
 
 /* Tabelas */
 .admin-table {
     width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
+    border-collapse: separate;   /* necessário para arredondar */
+    border-spacing: 0;
+    overflow: hidden;
+    border: 2px solid var(--color-border);
+    background-color: var(--color-white);
 }
 
 .admin-table th,
 .admin-table td {
     padding: 8px 12px;
-    border: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-border);
     text-align: left;
     vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: 0;
 }
 
 .admin-table th {
@@ -449,7 +497,7 @@ textarea {
     height: 120px;
 }
 
-.thumb-mobile {
+.thumb-furniture {
     width: 72px;
     height: 72px;
 }
@@ -500,7 +548,7 @@ textarea {
     box-sizing: border-box;
     width: 100%;
     padding: 6px 8px;
-    background-color: #fff;
+    background-color: var(--color-white);
     border: 2px solid var(--color-border);
     font-size: 18px;
 }
@@ -517,4 +565,30 @@ textarea {
 .admin-form .btn {
     align-self: center;
     width: 100%;
+}
+
+
+/* =====================================================
+   9. CANTOS ARREDONDADOS
+   Para arredondar outro elemento, é só incluir o nome dele nesta lista.
+   ===================================================== */
+.frame,
+.btn,
+.menu-title,
+.room-name,
+.alert,
+.menu form ul,
+.admin-form ul,
+.menu input[type="email"],
+.menu input[type="password"],
+.menu input[type="text"],
+.admin-form,
+.admin-form input,
+.admin-form select,
+.picker,
+.picker-thumb,
+.thumb,
+.room-card img,
+.admin-table {
+    border-radius: var(--radius);
 }

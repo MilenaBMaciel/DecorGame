@@ -10,12 +10,12 @@
 
         {{ form_start(form, { attr: { class: 'picker', 'data-action': 'change->slot-preview#update' } }) }}
             <div class="picker-options">
-                {% for choice in form.mobile %}
+                {% for choice in form.furniture %}
                     <label class="picker-option" title="{{ choice.vars.label }}">
                         {{ form_widget(choice) }}
                         <span class="picker-thumb">
                             {% if choice.vars.attr['data-image'] is defined %}
-                                <img src="/uploads/mobiles/{{ choice.vars.attr['data-image'] }}" alt="">
+                                <img src="/uploads/furniture/{{ choice.vars.attr['data-image'] }}" alt="">
                             {% else %}
                                 {# Opção "vazio": sem imagem, só um X #}
                                 <span class="picker-empty">&times;</span>
