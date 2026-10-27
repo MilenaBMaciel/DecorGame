@@ -1,12 +1,33 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ slot.room.name }}{% endblock %}
+
+{% block body_class %}room-page{% endblock %}
+
 {% block body %}
-    <h2>Slot da sala {{ slot.room.name }}</h2>
+    <div class="scene" data-controller="slot-preview" style="--room-image: url('/uploads/rooms/{{ slot.room.image }}')">
+        {% include 'room/_slots.html.twig' with { active_slot: slot } %}
 
-    {{ form_start(form) }}
-        {{ form_widget(form.mobile) }}
-        <button type="submit">Guardar</button>
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_room_get', { id: slot.room.id }) }}">← Voltar</a>
+        {{ form_start(form, { attr: { class: 'picker', 'data-action': 'change->slot-preview#update' } }) }}
+            <div class="picker-options">
+                {% for choice in form.mobile %}
+                    <label class="picker-option" title="{{ choice.vars.label }}">
+                        {{ form_widget(choice) }}
+                        <span class="picker-thumb">
+                            {% if choice.vars.attr['data-image'] is defined %}
+                                <img src="/uploads/mobiles/{{ choice.vars.attr['data-image'] }}" alt="">
+                            {% else %}
+                                {# Opção "vazio": sem imagem, só um X #}
+                                <span class="picker-empty">&times;</span>
+                            {% endif %}
+                        </span>
+                    </label>
+                {% endfor %}
+            </div>
+            <div class="picker-actions">
+                <button type="submit" class="btn">Save</button>
+                <a class="btn" href="{{ path('app_room_get', { id: slot.room.id }) }}">Cancel</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

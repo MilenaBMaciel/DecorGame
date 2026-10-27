@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MenuController!{% endblock %}
+{% block title %}DecorGame{% endblock %}
 
 {% block body %}
-
-<div class="example-wrapper">
-    <a href="{{ path('app_rooms') }}">Start</a>
-    <a href="{{ path('app_menu_edit')}}">Edit Game</a>
-    <a href="{{ path('app_logout') }}">Logout</a>
+<div class="menu">
+    <h1 class="menu-title">DecorGame</h1>
+    <a class="btn" href="{{ path('app_rooms') }}">Start</a>
+    <a class="btn" href="{{ path('app_menu_edit') }}">Edit Game</a>
+    {# Sem prefetch: o Turbo visitaria /logout só de passar o mouse e deslogaria o usuário #}
+    <a class="btn" href="{{ path('app_logout') }}" data-turbo-prefetch="false">Logout</a>
 </div>
 {% endblock %}

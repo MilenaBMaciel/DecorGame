@@ -21,7 +21,10 @@ class SlotType extends AbstractType
                 'query_builder' => fn (MobileRepository $repository) => $repository->createQueryBuilder('m')->orderBy('m.name', 'ASC'),
                 // Sem móvel escolhido = slot vazio (mobile fica null)
                 'required' => false,
-                'placeholder' => '— Vazio —',
+                'placeholder' => 'Empty',
+                // Cada móvel vira uma opção com a imagem (o template desenha as miniaturas)
+                'expanded' => true,
+                'choice_attr' => fn (Mobile $mobile) => ['data-image' => $mobile->getImage()],
             ])
         ;
     }

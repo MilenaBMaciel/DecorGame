@@ -3,9 +3,13 @@
 {% block title %}New Room{% endblock %}
 
 {% block body %}
-    <h1>Create new Room</h1>
+<div class="admin">
+    <h1 class="menu-title">New Room</h1>
 
     {{ include('admin_room/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_room_index') }}">back to list</a>
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_room_index') }}">Back</a>
+    </div>
+</div>
 {% endblock %}

@@ -45,14 +45,6 @@ final class AdminRoomController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_room_show', methods: ['GET'])]
-    public function show(Room $room): Response
-    {
-        return $this->render('admin_room/show.html.twig', [
-            'room' => $room,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_admin_room_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Room $room, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {

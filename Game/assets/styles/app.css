@@ -3,24 +3,29 @@
    ===================================================== */
    :root {
     /* Paleta (troque pelos hexadecimais da sua paleta) */
-    --cor-fundo:        #f7e1e6;
-    --cor-texto:        #000000;
-    --cor-botao:        #F49AA2;
-    --cor-botao-hover:  #E37083;
-    --cor-borda:        #000000;
-    --cor-verde:        #A8BF8A;
-    --cor-azul:         #89B7C2;
-    --cor-amarelo:      #FCCD86;
+    --color-background:        #f7e1e6;
+    --color-text:        #000000;
+    --color-button:        #F49AA2;
+    --color-button-hover:  #E37083;
+    --color-border:        #000000;
+    --color-green:        #A8BF8A;
+    --color-blue:         #89B7C2;
+    --color-red: #E5857F;
+    --color-yellow:      #FCCD86;
     /* Imagem de fundo das páginas que não são cômodos.
        Coloque o arquivo em assets/images/ e troque só o nome. */
-    --imagem-fundo: url('../images/imageFundo.png');
+    --background-image: url('../images/imageFundo.png');
 
     /* Transparência da imagem de fundo: 0 = invisível, 1 = totalmente visível */
-    --opacidade-fundo: 0.8;
+    --background-opacity: 0.8;
         /* Quantas vezes a pixel art é ampliada (use número inteiro) */
-    --escala: 4;
-        /* Altura dos slots, em pixels da imagem original (0 a 120) */
-    --altura-slots: 70;
+    --scale: 5;
+        /* Quantas vezes os móveis (24x24) são ampliados; pode ser maior que --scale (inteiro) */
+    --mobile-scale: 11;
+    /* Altura dos slots, em pixels da imagem original (0 a 120) */
+    --slots-top: 70;
+    /* Altura da moldura, em pixels da imagem original (a mesma do cômodo) */
+    --frame-height: 120;
 
 }
 
@@ -28,33 +33,16 @@
 /* =====================================================
    2. BASE
    ===================================================== */
+/* Fora da moldura o fundo é preto, como nos jogos antigos */
 body {
     margin: 0;
     min-height: 100vh;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    color: var(--color-text);
     font-family: "Pixelify Sans", sans-serif;
-}
-
-/* Imagem de fundo com transparência.
-   Não dá para aplicar opacidade só no background-image,
-   então criamos uma "camada" extra atrás do conteúdo (::before)
-   e deixamos só ela transparente. */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-image: var(--imagem-fundo);
-    background-size: cover;
-    background-position: center;
-    opacity: var(--opacidade-fundo);
-    image-rendering: pixelated;
-}
-
-/* Páginas de cômodo: sem a imagem de fundo */
-body.pagina-comodo::before {
-    display: none;
 }
 
 /* Pixel art nítido ao ampliar */
@@ -72,46 +60,461 @@ textarea {
 
 
 /* =====================================================
-   3. BOTÕES
+   3. MOLDURA
+   Tamanho fixo (200 x 120 px originais, ampliados pela escala).
+   A borda é um box-shadow para não diminuir a área interna.
    ===================================================== */
-.btn { }
-.btn:hover { }
-.btn:active { }
+.frame {
+    position: relative;
+    flex: none;
+    width: calc(200px * var(--scale));
+    height: calc(var(--frame-height) * 1px * var(--scale));
+    overflow: hidden;
+    background-color: var(--color-background);
+    box-shadow: 0 0 0 4px var(--color-border);
+}
+
+/* Imagem de fundo com transparência.
+   Não dá para aplicar opacidade só no background-image,
+   então criamos uma "camada" extra atrás do conteúdo (::before)
+   e deixamos só ela transparente. */
+.frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--background-image);
+    background-size: cover;
+    background-position: center;
+    opacity: var(--background-opacity);
+    image-rendering: pixelated;
+}
+
+/* Páginas de cômodo: sem a imagem de fundo */
+.room-page .frame::before {
+    display: none;
+}
+
+/* Conteúdo da página, por cima da camada de fundo */
+.frame-content {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+}
 
 
 /* =====================================================
-   4. TELA DO CÔMODO
+   4. BOTÕES
    ===================================================== */
-.cena {
-    position: relative;
-    width: calc(200px * var(--escala));
-    height: calc(120px * var(--escala));
-    margin: 40px auto 0;
+.btn {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: var(--color-button);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    font-family: inherit;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn:hover { background-color: var(--color-button-hover); }
+.btn:active { transform: translateY(2px); }
 
-    background-color: var(--cor-azul);
-    background-image: var(--imagem-comodo, none);
+
+/* =====================================================
+   5. TELA DO CÔMODO
+   ===================================================== */
+.scene {
+    position: relative;
+    width: calc(200px * var(--scale));
+    height: calc(120px * var(--scale));
+
+    background-color: var(--color-blue);
+    background-image: var(--room-image, none);
     background-size: 100% 100%;
     image-rendering: pixelated;
 }
 
-.fileira-slots {
+.slots-row {
     position: absolute;
     left: 0;
     right: 0;
-    top: calc(var(--altura-slots) * 1px * var(--escala));
+    /* O pé do móvel fica sempre na mesma altura, qualquer que seja o tamanho dele */
+    top: calc((var(--slots-top) + 24) * 1px * var(--scale) - 24px * var(--mobile-scale));
 
     display: flex;
     justify-content: space-evenly;
 }
 
 .slot {
-    width: calc(24px * var(--escala));
-    height: calc(24px * var(--escala));
-    outline: 2px dashed red; /* TEMPORÁRIO: para ver os slots vazios */
+    display: block;
+    width: calc(24px * var(--mobile-scale));
+    height: calc(24px * var(--mobile-scale));
+}
+
+/* Slot vazio não mostra nada; o contorno só aparece ao passar o mouse */
+.slot:hover,
+.slot:focus-visible {
+    outline: 2px dashed var(--color-yellow);
+    outline-offset: 2px;
 }
 
 .slot img {
     display: block;
     width: 100%;
     height: 100%;
+}
+
+.slot img[hidden] {
+    display: none;
+}
+
+/* Botões por cima da imagem do cômodo */
+.room-back,
+.room-name,
+.room-nav {
+    position: absolute;
+}
+
+.room-back {
+    bottom: 12px;
+    left: 12px;
+}
+
+.room-name {
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 16px;
+    background-color: var(--color-yellow);
+    border: 2px solid var(--color-border);
+    font-size: 20px;
+}
+
+.room-nav {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.room-nav-previous { left: 12px; }
+.room-nav-next { right: 12px; }
+
+
+/* =====================================================
+   6. ESCOLHA DO MÓVEL
+   ===================================================== */
+/* Slot que está sendo editado */
+.slot-active {
+    outline: 2px dashed var(--color-yellow);
+    outline-offset: 2px;
+}
+
+/* Painel por cima da parte de baixo do cômodo */
+.picker {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: var(--color-background);
+    border: 2px solid var(--color-border);
+}
+
+.picker-options {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px;
+}
+
+.picker-option {
+    position: relative;
+    flex: none;
+    cursor: pointer;
+}
+
+/* O radio fica escondido; a miniatura faz o papel dele */
+.picker-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.picker-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(24px * 3);
+    height: calc(24px * 3);
+    background-color: #fff;
+    border: 2px solid var(--color-border);
+}
+
+.picker-thumb img {
+    width: 100%;
+    height: 100%;
+}
+
+.picker-empty {
+    font-size: 40px;
+    line-height: 1;
+}
+
+.picker-option:hover .picker-thumb {
+    background-color: var(--color-yellow);
+}
+
+.picker-option input:checked + .picker-thumb {
+    background-color: var(--color-green);
+    outline: 3px solid var(--color-button-hover);
+}
+
+.picker-option input:focus-visible + .picker-thumb {
+    outline: 3px dashed var(--color-text);
+}
+
+.picker-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+
+
+/* =====================================================
+   7. MENUS
+   ===================================================== */
+/* Coluna centralizada dentro da moldura */
+.menu {
+    box-sizing: border-box;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px;
+}
+
+.menu-title {
+    margin: 0 0 8px;
+    padding: 8px 32px;
+    background-color: var(--color-yellow);
+    border: 2px solid var(--color-border);
+    font-size: 40px;
+    font-weight: 700;
+}
+
+/* Botões dos menus: os mesmos .btn dos cômodos, só maiores e do mesmo tamanho */
+.menu .btn {
+    box-sizing: border-box;
+    width: 280px;
+    font-size: 24px;
+}
+
+/* Formulários (login e registro) */
+.menu form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 320px;
+}
+
+.menu label {
+    font-size: 18px;
+}
+
+.menu input[type="email"],
+.menu input[type="password"],
+.menu input[type="text"],
+.admin-form input[type="text"],
+.admin-form input[type="file"],
+.admin-form select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 8px;
+    background-color: #fff;
+    border: 2px solid var(--color-border);
+    font-size: 18px;
+}
+
+.menu form .btn {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Mensagens de erro */
+.alert,
+.menu form ul,
+.admin-form ul {
+    margin: 0;
+    padding: 6px 10px;
+    background-color: var(--color-button);
+    border: 2px solid var(--color-border);
+    list-style: none;
+}
+
+/* Lista de cômodos */
+.room-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+}
+
+.room-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.room-card img {
+    display: block;
+    width: 400px;
+    height: 240px;
+    border: 2px solid var(--color-border);
+}
+
+.room-card:hover img {
+    outline: 3px dashed var(--color-yellow);
+}
+
+.room-card .btn {
+    width: 100%;
+}
+
+
+/* =====================================================
+   8. ADMIN
+   ===================================================== */
+.admin {
+    box-sizing: border-box;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+}
+
+/* Variações do botão */
+.btn-small {
+    padding: 2px 10px;
+    font-size: 16px;
+}
+
+.btn-danger {
+    background-color: var(--color-red);
+}
+
+.btn-danger:hover {
+    background-color: #D0605A;
+}
+
+/* Tabelas */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 8px 12px;
+    border: 2px solid var(--color-border);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.admin-table th {
+    background-color: var(--color-yellow);
+}
+
+/* Miniaturas: tamanho inteiro da pixel art original */
+.thumb {
+    display: block;
+    background-color: var(--color-blue);
+    border: 2px solid var(--color-border);
+}
+
+.thumb-room {
+    width: 200px;
+    height: 120px;
+}
+
+.thumb-mobile {
+    width: 72px;
+    height: 72px;
+}
+
+.current-image {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Botões de ação lado a lado */
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* Formulário de criar/editar */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 420px;
+    padding: 16px;
+    background-color: var(--color-background);
+    border: 2px solid var(--color-border);
+}
+
+.admin-form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-form > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-form label {
+    font-size: 18px;
+}
+
+.admin-form input,
+.admin-form select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 8px;
+    background-color: #fff;
+    border: 2px solid var(--color-border);
+    font-size: 18px;
+}
+
+.admin-form input[type="file"]::file-selector-button {
+    margin-right: 8px;
+    padding: 2px 10px;
+    background-color: var(--color-button);
+    border: 2px solid var(--color-border);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.admin-form .btn {
+    align-self: center;
+    width: 100%;
 }

@@ -1,14 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RoomController!{% endblock %}
+{% block title %}Rooms{% endblock %}
 
 {% block body %}
+<div class="menu">
+    <h1 class="menu-title">Choose a room</h1>
 
-<div class="example-wrapper">
-    <h1>Hello ! ✅</h1>
+    <div class="room-list">
         {% for room in rooms %}
-            <a href="{{ path('app_room_get', { id: room.id }) }}">{{ room.name }}</a>
+            <a class="room-card" href="{{ path('app_room_get', { id: room.id }) }}">
+                <img src="/uploads/rooms/{{ room.image }}" alt="">
+                <span class="btn">{{ room.name }}</span>
+            </a>
         {% endfor %}
+    </div>
+
+    <a class="btn" href="{{ path('app_menu_main') }}">Back</a>
 </div>
-<a href="{{ path('app_menu_main') }}">Back</a>
 {% endblock %}

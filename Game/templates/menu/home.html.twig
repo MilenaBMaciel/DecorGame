@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MenuController!{% endblock %}
+{% block title %}DecorGame{% endblock %}
 
 {% block body %}
-
-<div class="example-wrapper">
-    <a href="{{ path('app_login') }}">Sign in</a>
-    <a href="{{ path('app_register') }}">Sign up</a>
+<div class="menu">
+    <h1 class="menu-title">DecorGame</h1>
+    <a class="btn" href="{{ path('app_login') }}">Sign in</a>
+    <a class="btn" href="{{ path('app_register') }}">Sign up</a>
 </div>
 {% endblock %}

@@ -1,38 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mobile index{% endblock %}
+{% block title %}Mobiles{% endblock %}
 
 {% block body %}
-    <h1>Mobile index</h1>
+<div class="admin">
+    <h1 class="menu-title">Mobiles</h1>
 
-    <table class="table">
+    <table class="admin-table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
                 <th>Image</th>
-                <th>actions</th>
+                <th>Name</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for mobile in mobiles %}
             <tr>
-                <td>{{ mobile.id }}</td>
+                <td><img class="thumb thumb-mobile" src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt=""></td>
                 <td>{{ mobile.name }}</td>
-                <td><img src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt="{{ mobile.name }}" height="80"></td>
                 <td>
-                    <a href="{{ path('app_admin_mobile_show', {'id': mobile.id}) }}">show</a>
-                    <a href="{{ path('app_admin_mobile_edit', {'id': mobile.id}) }}">edit</a>
+                    <a class="btn btn-small" href="{{ path('app_admin_mobile_edit', {'id': mobile.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="3">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_mobile_new') }}">Create new</a>
-    <a href="{{ path('app_menu_edit')}}">Back</a>
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_mobile_new') }}">Create new</a>
+        <a class="btn" href="{{ path('app_menu_edit') }}">Back</a>
+    </div>
+</div>
 {% endblock %}

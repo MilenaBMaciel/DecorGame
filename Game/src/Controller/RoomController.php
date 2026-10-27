@@ -25,21 +25,23 @@ final class RoomController extends AbstractController
     public function index(RoomRepository $roomRepository): Response
     {
         return $this->render('room/index.html.twig', [
-            'rooms' => $roomRepository->findBy([], ['name' => 'ASC']),
+            'rooms' => $roomRepository->findAllOrdered(),
         ]);
     }
 
     #[Route('/room/{id}', name: 'room_get', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function getRoom(Room $room, #[CurrentUser] User $user, SlotManager $slotManager): Response
+    public function getRoom(Room $room, #[CurrentUser] User $user, SlotManager $slotManager, RoomRepository $roomRepository): Response
     {
         return $this->render('room/room.html.twig', [
             'room' => $room,
             'slots' => $slotManager->getSlotsFor($room, $user),
+            'previous_room' => $roomRepository->findPrevious($room->getId()),
+            'next_room' => $roomRepository->findNext($room->getId()),
         ]);
     }
 
     #[Route('/room/slot/{id}/edit', name: 'slot_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function editSlot(Slot $slot, #[CurrentUser] User $user, Request $request, EntityManagerInterface $em): Response
+    public function editSlot(Slot $slot, #[CurrentUser] User $user, Request $request, EntityManagerInterface $em, SlotManager $slotManager): Response
     {
         // Ninguém mexe na decoração dos outros
         if ($slot->getUser() !== $user) {
@@ -57,6 +59,7 @@ final class RoomController extends AbstractController
 
         return $this->render('room/edit_slot.html.twig', [
             'slot' => $slot,
+            'slots' => $slotManager->getSlotsFor($slot->getRoom(), $user),
             'form' => $form,
         ]);
     }

@@ -44,14 +44,6 @@ final class AdminMobileController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_mobile_show', methods: ['GET'])]
-    public function show(Mobile $mobile): Response
-    {
-        return $this->render('admin_mobile/show.html.twig', [
-            'mobile' => $mobile,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_admin_mobile_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Mobile $mobile, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {

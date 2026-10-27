@@ -1,25 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GetoRoom!{% endblock %}
+{% block title %}{{ room.name }}{% endblock %}
+
+{% block body_class %}room-page{% endblock %}
 
 {% block body %}
+    <div class="scene" style="--room-image: url('/uploads/rooms/{{ room.image }}')">
+        {% include 'room/_slots.html.twig' %}
 
-<div class="example-wrapper">
-    <h1>Hello ! ✅</h1>
-        <p>{{room.id}}</p>
-        <p>{{room.name}}</p>
-        <p>{{room.image}}</p>
-        {% for slot in slots %}
-            <div class="slot">
-                {% if slot.mobile %}
-                    <p>{{ slot.mobile.name }}</p>
-                {% else %}
-                    <p>Vazio</p>
-                {% endif %}
+        <a class="btn room-back" href="{{ path('app_rooms') }}">Back</a>
+        <span class="room-name">{{ room.name }}</span>
 
-                <a href="{{ path('app_slot_edit', { id: slot.id }) }}">Editar</a>
-            </div>
-        {% endfor %}
-</div>
-    <a href="{{ path('app_rooms') }}">Back</a>
+        {# Anterior / próximo: só aparecem se existir mais de uma sala #}
+        {% if previous_room %}
+            <a class="btn room-nav room-nav-previous" href="{{ path('app_room_get', { id: previous_room.id }) }}" title="{{ previous_room.name }}">&larr;</a>
+        {% endif %}
+        {% if next_room %}
+            <a class="btn room-nav room-nav-next" href="{{ path('app_room_get', { id: next_room.id }) }}" title="{{ next_room.name }}">&rarr;</a>
+        {% endif %}
+    </div>
 {% endblock %}

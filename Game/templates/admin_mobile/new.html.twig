@@ -3,9 +3,13 @@
 {% block title %}New Mobile{% endblock %}
 
 {% block body %}
-    <h1>Create new Mobile</h1>
+<div class="admin">
+    <h1 class="menu-title">New Mobile</h1>
 
     {{ include('admin_mobile/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_mobile_index') }}">back to list</a>
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_mobile_index') }}">Back</a>
+    </div>
+</div>
 {% endblock %}

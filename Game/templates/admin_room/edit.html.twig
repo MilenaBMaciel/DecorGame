@@ -3,16 +3,19 @@
 {% block title %}Edit Room{% endblock %}
 
 {% block body %}
-    <h1>Edit Room</h1>
+<div class="admin">
+    <h1 class="menu-title">Edit Room</h1>
 
-    <p>Imagem atual:</p>
-    <img src="{{ asset('uploads/rooms/' ~ room.image) }}" alt="{{ room.name }}" height="120">
-    <p>Envie um novo arquivo só se quiser trocar.</p>
+    <div class="current-image">
+        <img class="thumb thumb-room" src="{{ asset('uploads/rooms/' ~ room.image) }}" alt="">
+        <span>Current image. Upload a new file only if you want to replace it.</span>
+    </div>
 
     {{ include('admin_room/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_admin_room_index') }}">back to list</a>
-
-    {{ include('admin_room/_delete_form.html.twig') }}
-    <a href="{{ path('app_menu_edit')}}">Edit Game</a>
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_room_index') }}">Back</a>
+        {{ include('admin_room/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

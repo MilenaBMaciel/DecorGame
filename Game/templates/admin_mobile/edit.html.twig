@@ -3,15 +3,19 @@
 {% block title %}Edit Mobile{% endblock %}
 
 {% block body %}
-    <h1>Edit Mobile</h1>
+<div class="admin">
+    <h1 class="menu-title">Edit Mobile</h1>
 
-    <p>Imagem atual:</p>
-    <img src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt="{{ mobile.name }}" height="120">
-    <p>Envie um novo arquivo só se quiser trocar.</p>
+    <div class="current-image">
+        <img class="thumb thumb-mobile" src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt="">
+        <span>Current image. Upload a new file only if you want to replace it.</span>
+    </div>
 
     {{ include('admin_mobile/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_admin_mobile_index') }}">back to list</a>
-
-    {{ include('admin_mobile/_delete_form.html.twig') }}
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_mobile_index') }}">Back</a>
+        {{ include('admin_mobile/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

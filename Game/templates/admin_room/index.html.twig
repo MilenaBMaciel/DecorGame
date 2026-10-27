@@ -1,38 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room index{% endblock %}
+{% block title %}Rooms{% endblock %}
 
 {% block body %}
-    <h1>Room index</h1>
+<div class="admin">
+    <h1 class="menu-title">Rooms</h1>
 
-    <table class="table">
+    <table class="admin-table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
                 <th>Image</th>
-                <th>actions</th>
+                <th>Name</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for room in rooms %}
             <tr>
-                <td>{{ room.id }}</td>
+                <td><img class="thumb thumb-room" src="{{ asset('uploads/rooms/' ~ room.image) }}" alt=""></td>
                 <td>{{ room.name }}</td>
-                <td><img src="{{ asset('uploads/rooms/' ~ room.image) }}" alt="{{ room.name }}" height="80"></td>
                 <td>
-                    <a href="{{ path('app_admin_room_show', {'id': room.id}) }}">show</a>
-                    <a href="{{ path('app_admin_room_edit', {'id': room.id}) }}">edit</a>
+                    <a class="btn btn-small" href="{{ path('app_admin_room_edit', {'id': room.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="3">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_room_new') }}">Create new</a>
-    <a href="{{ path('app_menu_edit')}}">Back</a>
+    <div class="admin-actions">
+        <a class="btn" href="{{ path('app_admin_room_new') }}">Create new</a>
+        <a class="btn" href="{{ path('app_menu_edit') }}">Back</a>
+    </div>
+</div>
 {% endblock %}

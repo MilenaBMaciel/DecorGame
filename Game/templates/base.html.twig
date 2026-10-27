@@ -23,6 +23,10 @@
         {% endif %}
     </head>
     <body class="{% block body_class %}{% endblock %}">
-        {% block body %}{% endblock %}
+        <main class="frame">
+            <div class="frame-content">
+                {% block body %}{% endblock %}
+            </div>
+        </main>
     </body>
 </html>
