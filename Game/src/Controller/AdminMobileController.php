@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Mobile;
 use App\Form\MobileType;
+use App\Service\FileUploader;
 use App\Repository\MobileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,13 +24,14 @@ final class AdminMobileController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_mobile_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $mobile = new Mobile();
         $form = $this->createForm(MobileType::class, $mobile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $mobile->setImage($fileUploader->upload($form->get('imageFile')->getData(), 'mobiles'));
             $entityManager->persist($mobile);
             $entityManager->flush();
 
@@ -51,12 +53,20 @@ final class AdminMobileController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_mobile_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Mobile $mobile, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Mobile $mobile, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
-        $form = $this->createForm(MobileType::class, $mobile);
+        $form = $this->createForm(MobileType::class, $mobile, ['image_required' => false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Só troca a imagem se uma nova foi enviada, e apaga a antiga
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $oldImage = $mobile->getImage();
+                $mobile->setImage($fileUploader->upload($imageFile, 'mobiles'));
+                $fileUploader->remove('mobiles', $oldImage);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_mobile_index', [], Response::HTTP_SEE_OTHER);
@@ -69,16 +79,17 @@ final class AdminMobileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_mobile_delete', methods: ['POST'])]
-    public function delete(Request $request, Mobile $mobile, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Mobile $mobile, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
 
         if ($this->isCsrfTokenValid('delete'.$mobile->getId(), $request->getPayload()->getString('_token'))) {
         
             // Esvazia todos os slots que têm este móvel
-            foreach ($mobile->getSlot() as $slot) {
+            foreach ($mobile->getSlots() as $slot) {
                 $slot->setMobile(null);
             }
     
+            $fileUploader->remove('mobiles', $mobile->getImage());
             $entityManager->remove($mobile);
             $entityManager->flush();
         }

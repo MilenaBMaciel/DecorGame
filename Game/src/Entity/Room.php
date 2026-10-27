@@ -6,6 +6,7 @@ use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -16,32 +17,33 @@ class Room
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Dê um nome para a sala.')]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
+    // Quantos slots cada sala tem (para cada usuário)
+    public const SLOT_COUNT = 3;
+
     /**
+     * Slots de TODOS os usuários nesta sala. Para a decoração de um usuário,
+     * use SlotManager::getSlotsFor().
+     *
      * @var Collection<int, Slot>
      */
     #[ORM\OneToMany(targetEntity: Slot::class, mappedBy: 'room', orphanRemoval: true)]
-    private Collection $slot;
+    private Collection $slots;
 
     public function __construct()
     {
-        $this->slot = new ArrayCollection();
+        $this->slots = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(string $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -71,15 +73,15 @@ class Room
     /**
      * @return Collection<int, Slot>
      */
-    public function getSlot(): Collection
+    public function getSlots(): Collection
     {
-        return $this->slot;
+        return $this->slots;
     }
 
     public function addSlot(Slot $slot): static
     {
-        if (!$this->slot->contains($slot)) {
-            $this->slot->add($slot);
+        if (!$this->slots->contains($slot)) {
+            $this->slots->add($slot);
             $slot->setRoom($this);
         }
 
@@ -88,7 +90,7 @@ class Room
 
     public function removeSlot(Slot $slot): static
     {
-        if ($this->slot->removeElement($slot)) {
+        if ($this->slots->removeElement($slot)) {
             // set the owning side to null (unless already changed)
             if ($slot->getRoom() === $this) {
                 $slot->setRoom(null);

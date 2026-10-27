@@ -5,6 +5,10 @@
 {% block body %}
     <h1>Edit Mobile</h1>
 
+    <p>Imagem atual:</p>
+    <img src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt="{{ mobile.name }}" height="120">
+    <p>Envie um novo arquivo só se quiser trocar.</p>
+
     {{ include('admin_mobile/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_admin_mobile_index') }}">back to list</a>

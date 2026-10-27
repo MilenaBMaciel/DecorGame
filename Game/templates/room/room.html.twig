@@ -9,7 +9,7 @@
         <p>{{room.id}}</p>
         <p>{{room.name}}</p>
         <p>{{room.image}}</p>
-        {% for slot in room.slot %}
+        {% for slot in slots %}
             <div class="slot">
                 {% if slot.mobile %}
                     <p>{{ slot.mobile.name }}</p>

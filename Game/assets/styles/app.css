@@ -1,28 +1,117 @@
-/* Importa a fonte pixel art do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700&display=swap');
+/* =====================================================
+   1. VARIÁVEIS — altere só os valores aqui
+   ===================================================== */
+   :root {
+    /* Paleta (troque pelos hexadecimais da sua paleta) */
+    --cor-fundo:        #f7e1e6;
+    --cor-texto:        #000000;
+    --cor-botao:        #F49AA2;
+    --cor-botao-hover:  #E37083;
+    --cor-borda:        #000000;
+    --cor-verde:        #A8BF8A;
+    --cor-azul:         #89B7C2;
+    --cor-amarelo:      #FCCD86;
+    /* Imagem de fundo das páginas que não são cômodos.
+       Coloque o arquivo em assets/images/ e troque só o nome. */
+    --imagem-fundo: url('../images/imageFundo.png');
 
-/* ── FUNDO DA PÁGINA (tela inteira, escuro) ── */
+    /* Transparência da imagem de fundo: 0 = invisível, 1 = totalmente visível */
+    --opacidade-fundo: 0.8;
+        /* Quantas vezes a pixel art é ampliada (use número inteiro) */
+    --escala: 4;
+        /* Altura dos slots, em pixels da imagem original (0 a 120) */
+    --altura-slots: 70;
+
+}
+
+
+/* =====================================================
+   2. BASE
+   ===================================================== */
 body {
     margin: 0;
-    background-color: #1a0a1e;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
     min-height: 100vh;
-    font-family: 'Nunito', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: "Pixelify Sans", sans-serif;
 }
 
-/* ── JANELA DO JOGO (tamanho fixo, centrada) ── */
-.game-janela {
-    width: 800px;
-    min-height: 520px;
-    background-color: #ffe4f0;
-    margin-top: 20px;
-    margin-bottom: 20px;
+/* Imagem de fundo com transparência.
+   Não dá para aplicar opacidade só no background-image,
+   então criamos uma "camada" extra atrás do conteúdo (::before)
+   e deixamos só ela transparente. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--imagem-fundo);
+    background-size: cover;
+    background-position: center;
+    opacity: var(--opacidade-fundo);
+    image-rendering: pixelated;
 }
 
-/* ── TODAS AS IMAGENS ficam pixeladas (não desfocadas) ── */
+/* Páginas de cômodo: sem a imagem de fundo */
+body.pagina-comodo::before {
+    display: none;
+}
+
+/* Pixel art nítido ao ampliar */
 img {
     image-rendering: pixelated;
-    image-rendering: crisp-edges;
+}
+
+/* Botões e campos não herdam a fonte sozinhos */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =====================================================
+   3. BOTÕES
+   ===================================================== */
+.btn { }
+.btn:hover { }
+.btn:active { }
+
+
+/* =====================================================
+   4. TELA DO CÔMODO
+   ===================================================== */
+.cena {
+    position: relative;
+    width: calc(200px * var(--escala));
+    height: calc(120px * var(--escala));
+    margin: 40px auto 0;
+
+    background-color: var(--cor-azul);
+    background-image: var(--imagem-comodo, none);
+    background-size: 100% 100%;
+    image-rendering: pixelated;
+}
+
+.fileira-slots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--altura-slots) * 1px * var(--escala));
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.slot {
+    width: calc(24px * var(--escala));
+    height: calc(24px * var(--escala));
+    outline: 2px dashed red; /* TEMPORÁRIO: para ver os slots vazios */
+}
+
+.slot img {
+    display: block;
+    width: 100%;
+    height: 100%;
 }

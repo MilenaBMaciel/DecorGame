@@ -18,3 +18,7 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> uploads do admin (imagens de salas e móveis) ###
+/public/uploads/
+###< uploads ###

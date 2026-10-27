@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ mobile.id }}</td>
                 <td>{{ mobile.name }}</td>
-                <td>{{ mobile.image }}</td>
+                <td><img src="{{ asset('uploads/mobiles/' ~ mobile.image) }}" alt="{{ mobile.name }}" height="80"></td>
                 <td>
                     <a href="{{ path('app_admin_mobile_show', {'id': mobile.id}) }}">show</a>
                     <a href="{{ path('app_admin_mobile_edit', {'id': mobile.id}) }}">edit</a>

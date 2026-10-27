@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>Image</th>
-                <td>{{ room.image }}</td>
+                <td><img src="{{ asset('uploads/rooms/' ~ room.image) }}" alt="{{ room.name }}" height="80"></td>
             </tr>
         </tbody>
     </table>

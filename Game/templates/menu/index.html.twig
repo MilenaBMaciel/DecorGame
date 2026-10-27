@@ -4,7 +4,9 @@
 
 {% block body %}
 
-<a href="{{ path('app_rooms')}}">Play</a>
-<a href="{{ path('app_menu_edit')}}">Edit Game</a>
-
+<div class="example-wrapper">
+    <a href="{{ path('app_rooms') }}">Start</a>
+    <a href="{{ path('app_menu_edit')}}">Edit Game</a>
+    <a href="{{ path('app_logout') }}">Logout</a>
+</div>
 {% endblock %}

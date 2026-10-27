@@ -6,6 +6,7 @@ use App\Repository\MobileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MobileRepository::class)]
 class Mobile
@@ -16,32 +17,29 @@ class Mobile
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Dê um nome para o móvel.')]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
     /**
+     * Todos os slots (de qualquer usuário) onde este móvel está colocado.
+     *
      * @var Collection<int, Slot>
      */
     #[ORM\OneToMany(targetEntity: Slot::class, mappedBy: 'mobile')]
-    private Collection $Slot;
+    private Collection $slots;
 
     public function __construct()
     {
-        $this->Slot = new ArrayCollection();
+        $this->slots = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(string $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -71,15 +69,15 @@ class Mobile
     /**
      * @return Collection<int, Slot>
      */
-    public function getSlot(): Collection
+    public function getSlots(): Collection
     {
-        return $this->Slot;
+        return $this->slots;
     }
 
     public function addSlot(Slot $slot): static
     {
-        if (!$this->Slot->contains($slot)) {
-            $this->Slot->add($slot);
+        if (!$this->slots->contains($slot)) {
+            $this->slots->add($slot);
             $slot->setMobile($this);
         }
 
@@ -88,7 +86,7 @@ class Mobile
 
     public function removeSlot(Slot $slot): static
     {
-        if ($this->Slot->removeElement($slot)) {
+        if ($this->slots->removeElement($slot)) {
             // set the owning side to null (unless already changed)
             if ($slot->getMobile() === $this) {
                 $slot->setMobile(null);

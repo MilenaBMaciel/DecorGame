@@ -5,6 +5,10 @@
 {% block body %}
     <h1>Edit Room</h1>
 
+    <p>Imagem atual:</p>
+    <img src="{{ asset('uploads/rooms/' ~ room.image) }}" alt="{{ room.name }}" height="120">
+    <p>Envie um novo arquivo só se quiser trocar.</p>
+
     {{ include('admin_room/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_admin_room_index') }}">back to list</a>

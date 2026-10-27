@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Room;
-use App\Entity\Slot;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -21,15 +20,8 @@ class RoomFixtures extends Fixture
             $room = new Room();
             $room->setName($data['name']);
             $room->setImage($data['image']);
+            // Os slots são criados por usuário, quando ele abre a sala (SlotManager)
             $manager->persist($room);
-
-            // 3 empty slots
-            for ($i = 1; $i <= 3; $i++) {
-                $slot = new Slot();
-                $slot->setRoom($room);
-                // mobile null
-                $manager->persist($slot);
-            }
         }
 
         $manager->flush();
