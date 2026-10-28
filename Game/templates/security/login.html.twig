@@ -6,7 +6,7 @@
 <div class="menu">
     <h1 class="menu-title">Sign in</h1>
 
-    <form method="post">
+    <form class="form" method="post">
         {% if error %}
             <div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -22,9 +22,9 @@
             <input type="checkbox" name="_remember_me"> Remember me
         </label>
 
-        <button class="btn" type="submit">Sign in</button>
+        <button class="btn btn-full" type="submit">Sign in</button>
     </form>
 
-    <a class="btn" href="{{ path('app_menu_home') }}">Back</a>
+    <a class="btn btn-yellow" href="{{ path('app_menu_home') }}">Back</a>
 </div>
 {% endblock %}

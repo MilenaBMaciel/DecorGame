@@ -5,12 +5,12 @@
 {% block body %}
 <div class="menu">
     <h1 class="game-title">DecorGame</h1>
-    <a class="btn" href="{{ path('app_rooms') }}">Start</a>
+    <a class="btn btn-wide" href="{{ path('app_rooms') }}">Start</a>
     {# Só o admin vê o botão (a proteção de verdade é o IsGranted no MenuController) #}
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="btn" href="{{ path('app_menu_edit') }}">Edit Game</a>
+        <a class="btn btn-wide btn-green" href="{{ path('app_menu_edit') }}">Edit Game</a>
     {% endif %}
     {# Sem prefetch: o Turbo visitaria /logout só de passar o mouse e deslogaria o usuário #}
-    <a class="btn" href="{{ path('app_logout') }}" data-turbo-prefetch="false">Logout</a>
+    <a class="btn btn-yellow" href="{{ path('app_logout') }}" data-turbo-prefetch="false">Logout</a>
 </div>
 {% endblock %}

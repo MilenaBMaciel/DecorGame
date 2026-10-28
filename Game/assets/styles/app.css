@@ -4,7 +4,7 @@
     src: url('../fonts/PixelLove.ttf') format("truetype");
 }
 @font-face {
-    font-family: "FatPIx";
+    font-family: "FatPix";
     src: url('../fonts/FatPix.ttf') format("truetype");
 }
 
@@ -15,16 +15,20 @@
     /* Paleta (troque pelos hexadecimais da sua paleta) */
     --color-background:        #f7e1e6;
     --color-text:        #000000;
-    --color-button:        #F49AA2;
-    --color-button-hover:  #E37083;
-    --color-border:        #000000;
-    --color-green:        #A8BF8A;
-    --color-blue:         #89B7C2;
-    --color-red: #E5857F;
-    --color-yellow:      #FCCD86;
+    --color-button:        #FE91A3;
+    --color-button-hover:  #Ed6078;
+    --color-border:        #190d0e;
+    --color-green:        #e1dd55;
+    --color-blue:         #A0D9E8;
+    --color-violet:       #7A88FE;
+    --color-red:         #EC1763;
+    --color-yellow:      #FBBD4C;
+    --color-orange:      #FF845A;
     --color-white:       #ffffff;   /* campos e tabelas */
-    --color-red-hover:   #D0605A;
     --color-outside:     #000000;   /* fundo fora da moldura */
+
+    /* Sombra de todos os botões (troque por none para tirar) */
+    --button-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 
     /* Quanto os cantos são arredondados (0 = quadrado) */
     --radius: 8px;
@@ -32,7 +36,7 @@
     --font-title: "FatPix", "Pixel Love", "Pixelify Sans", sans-serif;
     /* Imagem de fundo das páginas que não são cômodos.
        Coloque o arquivo em assets/images/ e troque só o nome. */
-    --background-image: url('../images/imageFundo.png');
+    --background-image: url('../images/Background-2.png.png');
 
     /* Transparência da imagem de fundo: 0 = invisível, 1 = totalmente visível */
     --background-opacity: 0.8;
@@ -90,6 +94,7 @@ textarea {
     overflow: hidden;
     background-color: var(--color-background);
     box-shadow: 0 0 0 4px var(--color-border);
+    border-radius: var(--radius);
 }
 
 /* Imagem de fundo com transparência.
@@ -122,29 +127,194 @@ textarea {
 
 /* =====================================================
    4. BOTÕES
+   Todo botão é .btn. Para mudar um botão específico, some uma
+   variação de tamanho ou cor: <a class="btn btn-small btn-danger">
    ===================================================== */
 .btn {
     display: inline-block;
+    box-sizing: border-box;
     padding: 4px 12px;
     background-color: var(--color-button);
     color: var(--color-text);
-    border: 2px solid var(--color-border);
+    border: 3px solid var(--color-border);
+    border-radius: var(--radius);
     font-family: inherit;
     font-size: 18px;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: var(--button-shadow);
 }
-.btn:hover { background-color: var(--color-button-hover); }
+
+.btn:hover {
+    filter: brightness(0.9);   /* escurece a cor do botão, seja qual for */
+}
+
 .btn:active {
     transform: translateY(3px);
     box-shadow: none;
 }
 
+/* --- Tamanhos --- */
+/* Pequeno: botões dentro de tabelas */
+.btn-small {
+    padding: 2px 10px;
+    font-size: 16px;
+}
+
+/* Largo: botões dos menus (todos do mesmo tamanho) */
+.btn-wide {
+    width: 280px;
+    font-size: 24px;
+}
+
+/* Ocupa toda a largura do que está em volta (formulários, cartões) */
+.btn-full {
+    width: 100%;
+}
+
+/* --- Cores ---
+   Sem classe de cor o botão é rosa (--color-button).
+   Para mudar a cor de um botão, troque a classe dele no template. */
+.btn-green  { background-color: var(--color-green); }
+.btn-blue   { background-color: var(--color-blue); }
+.btn-violet { background-color: var(--color-violet); }
+.btn-orange { background-color: var(--color-orange); }
+.btn-yellow { background-color: var(--color-yellow); }
+.btn-danger { background-color: var(--color-red); }
+
 
 /* =====================================================
-   5. TELA DO CÔMODO
+   5. TÍTULOS
+   ===================================================== */
+.menu-title,
+.game-title {
+    margin: 0 0 8px;
+    padding: 8px 32px;
+    color: var(--color-yellow);
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: var(--color-border);
+    font-family: var(--font-title);
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Título das telas */
+.menu-title {
+    font-size: 60px;
+}
+
+/* Nome do jogo (só na home e no menu principal) */
+.game-title {
+    font-size: 90px;
+}
+
+
+/* =====================================================
+   6. FORMULÁRIOS E MENSAGENS
+   .form = login e registro | .admin-form = criar/editar no admin
+   ===================================================== */
+.form,
+.admin-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form label,
+.admin-form label {
+    font-size: 18px;
+}
+
+/* Campos de texto, arquivo e seleção */
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="text"],
+.admin-form input[type="text"],
+.admin-form input[type="file"],
+.admin-form select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 8px;
+    background-color: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 18px;
+}
+
+/* Botão "Escolher arquivo" */
+.admin-form input[type="file"]::file-selector-button {
+    margin-right: 8px;
+    padding: 2px 10px;
+    background-color: var(--color-button);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* Login e registro */
+.form {
+    gap: 8px;
+    width: 320px;
+}
+
+/* Criar/editar no admin: uma caixa com os campos dentro */
+.admin-form {
+    gap: 12px;
+    width: 420px;
+    padding: 16px;
+    background-color: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.admin-form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-form > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Mensagens de erro (e a lista de erros dos formulários) */
+.alert,
+.form ul,
+.admin-form ul {
+    margin: 0;
+    padding: 6px 10px;
+    background-color: var(--color-button);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    list-style: none;
+}
+
+/* Mensagem de sucesso (ex.: "Relatório enviado!") */
+.alert-success {
+    background-color: var(--color-green);
+}
+
+/* Mensagens flutuando no topo da moldura, sem empurrar o conteúdo */
+.flash-messages {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 18px;
+    text-align: center;
+}
+
+
+/* =====================================================
+   7. TELA DO CÔMODO
    ===================================================== */
 .scene {
     position: relative;
@@ -177,8 +347,8 @@ textarea {
 /* Slot vazio não mostra nada; o contorno só aparece ao passar o mouse */
 .slot:hover,
 .slot:focus-visible {
-    outline: 2px dashed var(--color-yellow);
-    outline-offset: 2px;
+    outline: 5px dashed var(--color-yellow);
+    outline-offset: 5px;
 }
 
 .slot img {
@@ -191,7 +361,7 @@ textarea {
     display: none;
 }
 
-/* Botões por cima da imagem do cômodo */
+/* Posição dos botões por cima da imagem do cômodo (o visual vem do .btn) */
 .room-back,
 .room-name,
 .room-nav {
@@ -204,19 +374,32 @@ textarea {
 }
 
 .room-name {
-    font-family: var(--font-title);
+    font-family: inherit;
     bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     padding: 4px 16px;
-    background-color: var(--color-yellow);
-    border: 2px solid var(--color-border);
-    font-size: 24px;
+    color: var(--color-border);
+    font-size: 32px;
+    letter-spacing: 1px;
 }
 
 .room-nav {
     top: 50%;
     transform: translateY(-50%);
+    padding: 6px;
+}
+
+/* Setas em pixel art (7x7 px), ampliadas 3 vezes */
+.room-nav img {
+    display: block;
+    width: calc(7px * 3);
+    height: calc(7px * 3);
+}
+
+/* Ao apertar: mantém a centralização (-50%) e desce 3px, como os outros botões */
+.room-nav:active {
+    transform: translateY(calc(-50% + 3px));
 }
 
 .room-nav-previous { left: 12px; }
@@ -224,12 +407,12 @@ textarea {
 
 
 /* =====================================================
-   6. ESCOLHA DO MÓVEL
+   8. ESCOLHA DO MÓVEL
    ===================================================== */
 /* Slot que está sendo editado */
 .slot-active {
-    outline: 2px dashed var(--color-yellow);
-    outline-offset: 2px;
+    outline: 5px dashed var(--color-green);
+    outline-offset: 5px;
 }
 
 /* Painel por cima da parte de baixo do cômodo */
@@ -245,6 +428,7 @@ textarea {
     padding: 12px;
     background-color: var(--color-background);
     border: 2px solid var(--color-border);
+    border-radius: var(--radius);
 }
 
 .picker-options {
@@ -277,6 +461,7 @@ textarea {
     height: calc(24px * 3);
     background-color: var(--color-white);
     border: 2px solid var(--color-border);
+    border-radius: var(--radius);
 }
 
 .picker-thumb img {
@@ -311,7 +496,7 @@ textarea {
 
 
 /* =====================================================
-   7. MENUS
+   9. MENUS
    ===================================================== */
 /* Coluna centralizada dentro da moldura */
 .menu {
@@ -323,110 +508,6 @@ textarea {
     justify-content: center;
     gap: 16px;
     padding: 24px;
-}
-
-.game-title {
-    margin: 0 0 8px;
-    padding: 8px 32px;
-    color: var(--color-yellow);
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: var(--color-border);
-    font-family: var(--font-title);
-    font-size: 90px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-}
-
-.menu-title {
-    margin: 0 0 8px;
-    padding: 8px 32px;
-    color: var(--color-yellow);
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: var(--color-border);
-    font-family: var(--font-title);
-    font-size: 60px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-}
-
-/* Botões dos menus: os mesmos .btn dos cômodos, só maiores e do mesmo tamanho */
-.menu .btn {
-    box-sizing: border-box;
-    width: 280px;
-    font-size: 24px;
-}
-
-/* Formulários (login e registro) */
-.menu form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 320px;
-}
-
-.menu label {
-    font-size: 18px;
-}
-
-.menu input[type="email"],
-.menu input[type="password"],
-.menu input[type="text"],
-.admin-form input[type="text"],
-.admin-form input[type="file"],
-.admin-form select {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 6px 8px;
-    background-color: var(--color-white);
-    border: 2px solid var(--color-border);
-    font-size: 18px;
-}
-
-.menu form .btn {
-    width: 100%;
-    margin-top: 8px;
-}
-
-/* Mensagens de erro */
-.alert,
-.menu form ul,
-.admin-form ul {
-    margin: 0;
-    padding: 6px 10px;
-    background-color: var(--color-button);
-    border: 2px solid var(--color-border);
-    list-style: none;
-}
-
-/* Mensagem de sucesso (ex.: "Relatório enviado!") */
-.alert-success {
-    background-color: var(--color-green);
-}
-
-/* Mensagens flutuando no topo da moldura, sem empurrar o conteúdo */
-.flash-messages {
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 18px;
-    text-align: center;
-}
-
-/* Formulário de um botão só (Send Report): igual aos outros botões do menu */
-.menu .report-form {
-    width: auto;
-}
-
-.menu .report-form .btn {
-    width: 280px;
-    margin-top: 0;
 }
 
 /* Lista de cômodos */
@@ -450,19 +531,16 @@ textarea {
     width: 400px;
     height: 240px;
     border: 2px solid var(--color-border);
+    border-radius: var(--radius);
 }
 
 .room-card:hover img {
     outline: 3px dashed var(--color-yellow);
 }
 
-.room-card .btn {
-    width: 100%;
-}
-
 
 /* =====================================================
-   8. ADMIN
+   10. ADMIN
    ===================================================== */
 .admin {
     box-sizing: border-box;
@@ -474,20 +552,6 @@ textarea {
     padding: 24px;
 }
 
-/* Variações do botão */
-.btn-small {
-    padding: 2px 10px;
-    font-size: 16px;
-}
-
-.btn-danger {
-    background-color: var(--color-red);
-}
-
-.btn-danger:hover {
-    background-color: var(--color-red-hover);
-}
-
 /* Tabelas */
 .admin-table {
     width: 100%;
@@ -495,6 +559,7 @@ textarea {
     border-spacing: 0;
     overflow: hidden;
     border: 2px solid var(--color-border);
+    border-radius: var(--radius);
     background-color: var(--color-white);
 }
 
@@ -519,6 +584,7 @@ textarea {
     display: block;
     background-color: var(--color-blue);
     border: 2px solid var(--color-border);
+    border-radius: var(--radius);
 }
 
 .thumb-room {
@@ -543,81 +609,4 @@ textarea {
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
-}
-
-/* Formulário de criar/editar */
-.admin-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 420px;
-    padding: 16px;
-    background-color: var(--color-background);
-    border: 2px solid var(--color-border);
-}
-
-.admin-form > div {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.admin-form > div > div {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.admin-form label {
-    font-size: 18px;
-}
-
-.admin-form input,
-.admin-form select {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 6px 8px;
-    background-color: var(--color-white);
-    border: 2px solid var(--color-border);
-    font-size: 18px;
-}
-
-.admin-form input[type="file"]::file-selector-button {
-    margin-right: 8px;
-    padding: 2px 10px;
-    background-color: var(--color-button);
-    border: 2px solid var(--color-border);
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.admin-form .btn {
-    align-self: center;
-    width: 100%;
-}
-
-
-/* =====================================================
-   9. CANTOS ARREDONDADOS
-   Para arredondar outro elemento, é só incluir o nome dele nesta lista.
-   ===================================================== */
-.frame,
-.btn,
-.menu-title,
-.room-name,
-.alert,
-.menu form ul,
-.admin-form ul,
-.menu input[type="email"],
-.menu input[type="password"],
-.menu input[type="text"],
-.admin-form,
-.admin-form input,
-.admin-form select,
-.picker,
-.picker-thumb,
-.thumb,
-.room-card img,
-.admin-table {
-    border-radius: var(--radius);
 }

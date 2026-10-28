@@ -10,11 +10,11 @@
         {% for room in rooms %}
             <a class="room-card" href="{{ path('app_room_get', { id: room.id }) }}">
                 <img src="/uploads/rooms/{{ room.image }}" alt="">
-                <span class="btn">{{ room.name }}</span>
+                <span class="btn btn-full">{{ room.name }}</span>
             </a>
         {% endfor %}
     </div>
 
-    <a class="btn" href="{{ path('app_menu_main') }}">Back</a>
+    <a class="btn btn-wide btn-yellow" href="{{ path('app_menu_main') }}">Back</a>
 </div>
 {% endblock %}

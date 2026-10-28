@@ -8,15 +8,15 @@
     <div class="scene" style="--room-image: url('/uploads/rooms/{{ room.image }}')">
         {% include 'room/_slots.html.twig' %}
 
-        <a class="btn room-back" href="{{ path('app_rooms') }}">Back</a>
+        <a class="btn btn-yellow room-back" href="{{ path('app_rooms') }}">Back</a>
         <span class="room-name">{{ room.name }}</span>
 
         {# Anterior / próximo: só aparecem se existir mais de uma sala #}
         {% if previous_room %}
-            <a class="btn room-nav room-nav-previous" href="{{ path('app_room_get', { id: previous_room.id }) }}" title="{{ previous_room.name }}">&larr;</a>
+            <a class="btn room-nav room-nav-previous" href="{{ path('app_room_get', { id: previous_room.id }) }}" title="{{ previous_room.name }}" aria-label="Previous room"><img src="{{ asset('images/left.png') }}" alt=""></a>
         {% endif %}
         {% if next_room %}
-            <a class="btn room-nav room-nav-next" href="{{ path('app_room_get', { id: next_room.id }) }}" title="{{ next_room.name }}">&rarr;</a>
+            <a class="btn room-nav room-nav-next" href="{{ path('app_room_get', { id: next_room.id }) }}" title="{{ next_room.name }}" aria-label="Next room"><img src="{{ asset('images/right.png') }}" alt=""></a>
         {% endif %}
     </div>
 {% endblock %}
