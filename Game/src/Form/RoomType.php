@@ -18,13 +18,13 @@ class RoomType extends AbstractType
 
         // Ao criar, a imagem é obrigatória; ao editar, só se quiser trocar
         if ($options['image_required']) {
-            $constraints[] = new NotNull(message: 'Escolha uma imagem para a sala.');
+            $constraints[] = new NotNull(message: 'Please choose an image for the room.');
         }
 
         $builder
             ->add('name')
             ->add('imageFile', FileType::class, [
-                'label' => 'Image (PNG, JPG, GIF ou WEBP, até 2 MB)',
+                'label' => 'Image (PNG, JPG, GIF or WEBP, up to 2 MB)',
                 'mapped' => false,
                 'required' => $options['image_required'],
                 'constraints' => $constraints,

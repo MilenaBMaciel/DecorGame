@@ -19,7 +19,7 @@ class Furniture
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Dê um nome para o móvel.')]
+    #[Assert\NotBlank(message: 'Please enter a name for the furniture.')]
     #[Assert\Length(max: 255)]
     #[Groups(['api_report'])]
     private ?string $name = null;

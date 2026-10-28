@@ -7,6 +7,13 @@
     <h1 class="menu-title">Edit Game</h1>
     <a class="btn" href="{{ path('app_admin_furniture_index') }}">Edit Furniture</a>
     <a class="btn" href="{{ path('app_admin_room_index') }}">Edit Room</a>
+
+    {# Formulário POST, não link: o prefetch do Turbo enviaria o email só de passar o mouse #}
+    <form class="report-form" method="post" action="{{ path('app_admin_report') }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('admin_report') }}">
+        <button class="btn" type="submit">Send Report</button>
+    </form>
+
     <a class="btn" href="{{ path('app_menu_main') }}">Back</a>
 </div>
 {% endblock %}

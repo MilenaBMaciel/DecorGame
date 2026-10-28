@@ -45,7 +45,7 @@ final class RoomController extends AbstractController
     {
         // Ninguém mexe na decoração dos outros
         if ($slot->getUser() !== $user) {
-            throw $this->createAccessDeniedException('Este slot pertence a outro usuário.');
+            throw $this->createAccessDeniedException('This slot belongs to another user.');
         }
 
         $form = $this->createForm(SlotType::class, $slot);

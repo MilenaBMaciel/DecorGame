@@ -19,7 +19,7 @@ class Room
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Dê um nome para a sala.')]
+    #[Assert\NotBlank(message: 'Please enter a name for the room.')]
     #[Assert\Length(max: 255)]
     #[Groups(['api_report'])]
     private ?string $name = null;

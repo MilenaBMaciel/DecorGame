@@ -25,6 +25,19 @@
     <body class="{% block body_class %}{% endblock %}">
         <main class="frame">
             <div class="frame-content">
+                {# Mensagens de retorno (cours 6): addFlash('success' | 'error', ...) nos controllers #}
+                {% set flashes = app.flashes(['success', 'error']) %}
+                {% if flashes.success is not empty or flashes.error is not empty %}
+                    <div class="flash-messages">
+                        {% for message in flashes.success %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                        {% for message in flashes.error %}
+                            <div class="alert">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 {% block body %}{% endblock %}
             </div>
         </main>
