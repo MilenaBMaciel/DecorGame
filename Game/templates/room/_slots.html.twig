@@ -8,9 +8,9 @@
             title="{{ slot.furniture ? slot.furniture.name : 'Empty' }}">
             {% if active %}
                 {# Slot em edição: a imagem sempre existe, o JS troca (só prévia, não salva) #}
-                <img {% if slot.furniture %}src="/uploads/furniture/{{ slot.furniture.image }}"{% else %}hidden{% endif %} alt="" data-slot-preview-target="image">
+                <img {% if slot.furniture %}src="{{ asset('uploads/furniture/' ~ slot.furniture.image) }}"{% else %}hidden{% endif %} alt="" data-slot-preview-target="image">
             {% elseif slot.furniture %}
-                <img src="/uploads/furniture/{{ slot.furniture.image }}" alt="">
+                <img src="{{ asset('uploads/furniture/' ~ slot.furniture.image) }}" alt="">
             {% endif %}
         </{{ tag }}>
     {% endfor %}

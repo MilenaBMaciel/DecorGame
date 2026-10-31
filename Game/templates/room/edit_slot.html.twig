@@ -5,7 +5,7 @@
 {% block body_class %}room-page{% endblock %}
 
 {% block body %}
-    <div class="scene" data-controller="slot-preview" style="--room-image: url('/uploads/rooms/{{ slot.room.image }}')">
+    <div class="scene" data-controller="slot-preview" data-slot-preview-base-url-value="{{ asset('uploads/furniture') }}" style="--room-image: url('{{ asset('uploads/rooms/' ~ slot.room.image) }}')">
         {% include 'room/_slots.html.twig' with { active_slot: slot } %}
 
         {{ form_start(form, { attr: { class: 'picker', 'data-action': 'change->slot-preview#update' } }) }}
@@ -15,7 +15,7 @@
                         {{ form_widget(choice) }}
                         <span class="picker-thumb">
                             {% if choice.vars.attr['data-image'] is defined %}
-                                <img src="/uploads/furniture/{{ choice.vars.attr['data-image'] }}" alt="">
+                                <img src="{{ asset('uploads/furniture/' ~ choice.vars.attr['data-image']) }}" alt="">
                             {% else %}
                                 {# Opção "vazio": sem imagem, só um X #}
                                 <span class="picker-empty">&times;</span>

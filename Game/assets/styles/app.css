@@ -282,9 +282,7 @@ textarea {
 }
 
 /* Mensagens de erro (e a lista de erros dos formulários) */
-.alert,
-.form ul,
-.admin-form ul {
+.alert {
     margin: 0;
     padding: 6px 10px;
     background-color: var(--color-button);

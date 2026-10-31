@@ -9,7 +9,7 @@
     <div class="room-list">
         {% for room in rooms %}
             <a class="room-card" href="{{ path('app_room_get', { id: room.id }) }}">
-                <img src="/uploads/rooms/{{ room.image }}" alt="">
+                <img src="{{ asset('uploads/rooms/' ~ room.image) }}" alt="">
                 <span class="btn btn-full">{{ room.name }}</span>
             </a>
         {% endfor %}

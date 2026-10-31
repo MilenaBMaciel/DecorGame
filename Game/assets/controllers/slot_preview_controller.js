@@ -4,12 +4,14 @@ import { Controller } from '@hotwired/stimulus';
 // só o botão Save envia o formulário.
 export default class extends Controller {
     static targets = ['image'];
+    // Pasta das imagens dos móveis, vinda do template (asset('uploads/furniture'))
+    static values = { baseUrl: String };
 
     update(event) {
         const image = event.target.dataset.image;
 
         if (image) {
-            this.imageTarget.src = `/uploads/furniture/${image}`;
+            this.imageTarget.src = `${this.baseUrlValue}/${image}`;
             this.imageTarget.hidden = false;
         } else {
             // Opção "vazio": esconde a imagem

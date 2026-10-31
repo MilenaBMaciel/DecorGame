@@ -5,7 +5,7 @@
 {% block body_class %}room-page{% endblock %}
 
 {% block body %}
-    <div class="scene" style="--room-image: url('/uploads/rooms/{{ room.image }}')">
+    <div class="scene" style="--room-image: url('{{ asset('uploads/rooms/' ~ room.image) }}')">
         {% include 'room/_slots.html.twig' %}
 
         <a class="btn btn-yellow room-back" href="{{ path('app_rooms') }}">Back</a>
