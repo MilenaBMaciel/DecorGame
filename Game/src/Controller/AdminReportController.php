@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\FurnitureRepository;
 use App\Repository\RoomRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -26,6 +27,7 @@ final class AdminReportController extends AbstractController
         FurnitureRepository $furnitureRepository,
         SerializerInterface $serializer,
         MailerInterface $mailer,
+        #[Autowire('%env(MAILER_FROM)%')] string $mailerFrom,
     ): Response {
         if (!$this->isCsrfTokenValid('admin_report', $request->getPayload()->getString('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
@@ -45,7 +47,7 @@ final class AdminReportController extends AbstractController
         ]);
 
         $email = (new Email())
-            ->from('gamedecor136@gmail.com')
+            ->from($mailerFrom)
             ->to($this->getUser()->getUserIdentifier())
             ->subject('DecorGame - Rooms and furniture report')
             ->text(\sprintf(
