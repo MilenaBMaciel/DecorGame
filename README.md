@@ -67,8 +67,6 @@ Uploaded images must be PNG, JPG, GIF or WEBP, up to 2 MB. When a piece of furni
 - [Composer](https://getcomposer.org/)
 - MySQL 8
 
-> The `compose.yaml` that ships with the project starts a PostgreSQL database, but the migrations were written for MySQL. Use MySQL.
-
 ### Installation
 
 Run the commands inside the `Game/` folder.
@@ -103,8 +101,6 @@ composer install
 
    ```bash
    symfony serve -d
-   # or, without the Symfony CLI:
-   php -S localhost:8000 -t public
    ```
 
 5. Open the address shown in the terminal.
@@ -155,7 +151,7 @@ Game/
 │   ├── DataFixtures/    sample data
 │   └── Security/        form login authentication
 ├── templates/           Twig views
-├── assets/              CSS, fonts, theme images and JS (Stimulus + Turbo)
+├── assets/              CSS, fonts, theme images and JS
 ├── fixtures/images/     sample images (the pixel art)
 └── public/uploads/      images uploaded by the admin (not committed)
 ```
