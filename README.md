@@ -125,6 +125,17 @@ MAILER_DSN=smtp://youremail@gmail.com:app%20password@smtp.gmail.com:587
 MAILER_FROM=youremail@gmail.com
 ```
 
+The sample administrator uses a fake address (`admin@decorgame.com`), so to receive the report you need an administrator with your real email:
+
+1. Create an account with **Sign up**, using your real email.
+2. Make it an administrator in the database:
+
+   ```sql
+   UPDATE user SET roles = '["ROLE_ADMIN"]' WHERE email = 'youremail@gmail.com';
+   ```
+
+3. Log out and log in again, then click **Send Report** in the admin menu.
+
 ## API (administrators only)
 
 | Route | Returns |
