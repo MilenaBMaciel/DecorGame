@@ -116,7 +116,15 @@ You can also create a new account with **Sign up**. New accounts are always regu
 
 ### Report email (optional)
 
-By default (`MAILER_DSN=null://null` in `.env`) no email is actually sent. To try the **Send Report** button, set `MAILER_DSN` in `.env.local`. The simplest way is [Mailpit](https://mailpit.axllent.org/), a test mailbox:
+By default (`MAILER_DSN=null://null` in `.env`) no email is actually sent, even though the button shows a success message. The report is sent to the email of the admin who clicks **Send Report**. To receive it, set these variables in `.env.local`.
+
+Use an [app password](https://myaccount.google.com/apppasswords) (spaces written as `%20`). `MAILER_FROM` must be the same address as in `MAILER_DSN`:
+
+```dotenv
+MAILER_DSN=smtp://youremail@gmail.com:app%20password@smtp.gmail.com:587
+MAILER_FROM=youremail@gmail.com
+```
+
 
 ```bash
 docker run -d --name mailpit -p 1025:1025 -p 8025:8025 axllent/mailpit
@@ -126,7 +134,7 @@ docker run -d --name mailpit -p 1025:1025 -p 8025:8025 axllent/mailpit
 MAILER_DSN=smtp://localhost:1025
 ```
 
-Emails show up at http://localhost:8025.
+Emails show up at http://localhost:8025. `MAILER_FROM` can stay with its default value (`noreply@decorgame.local`).
 
 ## API (administrators only)
 
