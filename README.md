@@ -125,17 +125,6 @@ MAILER_DSN=smtp://youremail@gmail.com:app%20password@smtp.gmail.com:587
 MAILER_FROM=youremail@gmail.com
 ```
 
-
-```bash
-docker run -d --name mailpit -p 1025:1025 -p 8025:8025 axllent/mailpit
-```
-
-```dotenv
-MAILER_DSN=smtp://localhost:1025
-```
-
-Emails show up at http://localhost:8025. `MAILER_FROM` can stay with its default value (`noreply@decorgame.local`).
-
 ## API (administrators only)
 
 | Route | Returns |
